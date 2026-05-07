@@ -1,0 +1,54 @@
+ #include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *prev;
+    struct Node *next;
+};
+struct Node *head = NULL;
+void insertBegin(int data) {
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->prev = NULL;
+    newNode->next = head;
+    if (head != NULL)
+        head->prev = newNode;
+    head = newNode;
+}
+void deleteBegin() {
+    struct Node *temp;
+    if (head == NULL) {
+        printf("List is empty. Deletion not possible.\n");
+        return;
+    }
+    temp = head;
+    head = head->next;
+    if (head != NULL)
+        head->prev = NULL;
+    free(temp);
+}
+
+void display() {
+    struct Node *temp = head;
+    if (head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+    while (temp != NULL) {
+        printf("%d <-> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+int main() {
+    insertBegin(10);
+    insertBegin(20);
+    insertBegin(30);
+    printf("After insertion:\n");
+    display();
+    deleteBegin();
+    printf("After deletion:\n");
+    display();
+    return 0;
+}
